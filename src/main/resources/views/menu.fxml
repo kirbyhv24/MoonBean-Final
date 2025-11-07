@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="moonbean.controller.MenuController">
+
+    <top>
+        <Label text="Main Menu"
+               style="-fx-font-size:22; -fx-font-weight:bold;"
+               BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets top="10" right="0" bottom="10" left="0"/>
+            </BorderPane.margin>
+        </Label>
+    </top>
+
+    <center>
+        <VBox spacing="12" alignment="CENTER">
+            <Button text="Browse Products" onAction="#onBrowseProducts" prefWidth="220"/>
+            <Button text="View Cart" onAction="#onViewCart" prefWidth="220"/>
+            <Button text="Logout" onAction="#onLogout" prefWidth="220"/>
+        </VBox>
+    </center>
+</BorderPane>

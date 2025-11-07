@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="moonbean.controller.CartController">
+
+    <center>
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Your Cart"
+                   style="-fx-font-size:20; -fx-font-weight:bold;"/>
+
+            <TableView fx:id="table" prefWidth="550" prefHeight="300">
+                <columns>
+                    <TableColumn fx:id="nameCol" text="Product" prefWidth="180"/>
+                    <TableColumn fx:id="qtyCol" text="Qty" prefWidth="80"/>
+                    <TableColumn fx:id="priceCol" text="Price (₱)" prefWidth="120"/>
+                    <TableColumn fx:id="subtotalCol" text="Subtotal" prefWidth="140"/>
+                </columns>
+            </TableView>
+
+            <Label fx:id="totalLabel"
+                   text="Total: ₱0.00"
+                   style="-fx-font-size:16; -fx-font-weight:bold;"/>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Checkout" onAction="#onCheckout"/>
+                <Button text="Clear Cart" onAction="#onClear"/>
+                <Button text="Back" onAction="#onBack"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
