@@ -17,23 +17,26 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order placeOrder() {
         List<CartItem> cartItems = AppContext.cartService.getItems();
-        if (cartItems.isEmpty())
+
+        if (cartItems.isEmpty()) {
             throw new IllegalStateException("Cart is empty.");
+        }
 
         User user = AppContext.currentUser;
         BigDecimal total = BigDecimal.valueOf(AppContext.cartService.getTotal());
 
-        Order order = new Order(user, new ArrayList<>(cartItems), total);
+        // convert BigDecimal to double for Order constructor
+        Order order = new Order(user, new ArrayList<>(cartItems), total.doubleValue());
         orders.add(order);
 
-        // clear cart
+        // clear the cart
         AppContext.cartService.clear();
 
         return order;
     }
 
     @Override
-    public List<Order> findAll() {
-        return new ArrayList<>(orders);
+    public List<Order> getAllOrders() {
+        return orders;
     }
 }

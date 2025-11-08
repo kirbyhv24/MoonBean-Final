@@ -11,6 +11,9 @@ import java.util.ArrayList;
 public class CartServiceImpl implements CartService {
     private final InMemoryCartRepository repo = new InMemoryCartRepository();
 
+    public CartServiceImpl(InMemoryCartRepository cartRepo) {
+    }
+
     @Override
     public ArrayList<CartItem> getItems() { return repo.findAll(); }
 

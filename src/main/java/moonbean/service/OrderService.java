@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface OrderService {
     Order placeOrder();
-    List<Order> findAll();
+    List<Order> getAllOrders();  // renamed for consistency with implementation
 }

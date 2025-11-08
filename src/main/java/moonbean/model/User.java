@@ -1,26 +1,41 @@
 package moonbean.model;
 
 public class User {
-    private String email;
-    private String password;
+    private String id;
     private String firstName;
     private String lastName;
+    private String email;
+    private String password;
 
     public User() {}
-    public User(String email, String password, String firstName, String lastName) {
-        this.email = email;
-        this.password = password;
+
+    // ✅ Constructor for full user (MongoDB + App)
+    public User(String id, String firstName, String lastName, String email, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.password = password;
     }
 
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
+    // ✅ Constructor for creating a new user before Mongo assigns _id
+    public User(String firstName, String lastName, String email, String password) {
+        this(null, firstName, lastName, email, password);
+    }
 
-    public void setEmail(String email) { this.email = email; }
-    public void setPassword(String password) { this.password = password; }
+    // --- Getters & Setters ---
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }

@@ -1,28 +1,53 @@
 package moonbean.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import moonbean.app.AppContext;
 import moonbean.app.Navigator;
-import moonbean.model.User;
+import moonbean.service.UserService;
 
 public class RegisterController {
-    @FXML private TextField firstNameField, lastNameField, emailField;
+
+    @FXML private TextField firstNameField;
+    @FXML private TextField lastNameField;
+    @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
-    @FXML private Label messageLabel;
+
+    private final UserService userService = AppContext.userService;
 
     @FXML
     private void onRegister() {
-        User u = new User(emailField.getText(), passwordField.getText(),
-                firstNameField.getText(), lastNameField.getText());
-        boolean ok = AppContext.userService.register(u);
+        String first = firstNameField.getText().trim();
+        String last = lastNameField.getText().trim();
+        String email = emailField.getText().trim();
+        String pass = passwordField.getText().trim();
 
-        if (ok) {
-            messageLabel.setText("Registration successful! You can now log in.");
+        if (first.isEmpty() || last.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Please fill in all fields.");
+            return;
+        }
+
+        boolean success = userService.register(first, last, email, pass);
+        if (success) {
+            showAlert(Alert.AlertType.INFORMATION, "Account created successfully!");
+            Navigator.go("login");
         } else {
-            messageLabel.setText("Email already exists or fields are empty.");
+            showAlert(Alert.AlertType.ERROR, "Email already exists.");
         }
     }
 
-    @FXML private void onBack() { Navigator.go("login"); }
+    // ✅ This fixes your error
+    @FXML
+    private void onBackToLogin() {
+        Navigator.go("login");
+    }
+
+    private void showAlert(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

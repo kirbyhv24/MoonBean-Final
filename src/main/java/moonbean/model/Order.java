@@ -1,39 +1,39 @@
 package moonbean.model;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 public class Order {
-    private final String orderId;
-    private final User user;
-    private final List<CartItem> items;
-    private final BigDecimal totalAmount;
-    private String status;
+    private static int counter = 1;  // static so it keeps counting
+    private String orderId;
+    private User user;
+    private List<CartItem> items;
+    private double total;
 
-    public Order(User user, List<CartItem> items, BigDecimal totalAmount) {
-        this.orderId = UUID.randomUUID().toString().substring(0, 8);
+    public Order(User user, List<CartItem> items, double total) {
+        this.orderId = String.format("ORD%03d", counter++);  // e.g., ORD001, ORD002
         this.user = user;
         this.items = items;
-        this.totalAmount = totalAmount;
-        this.status = "PAID";
+        this.total = total;
     }
 
-    public String getOrderId() { return orderId; }
-    public User getUser() { return user; }
-    public List<CartItem> getItems() { return items; }
-    public BigDecimal getTotalAmount() { return totalAmount; }
-    public String getStatus() { return status; }
+    public String getOrderId() {
+        return orderId;
+    }
 
-    public void setStatus(String status) { this.status = status; }
+    public User getUser() {
+        return user;
+    }
+
+    public List<CartItem> getItems() {
+        return items;
+    }
+
+    public double getTotalAmount() {
+        return total;
+    }
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId='" + orderId + '\'' +
-                ", user=" + (user != null ? user.getEmail() : "guest") +
-                ", totalAmount=" + totalAmount +
-                ", status='" + status + '\'' +
-                '}';
+        return "Order ID: " + orderId + ", Total: ₱" + total;
     }
 }

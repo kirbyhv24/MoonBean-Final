@@ -1,25 +1,24 @@
 package moonbean.service.impl;
 
 import moonbean.model.User;
-import moonbean.repository.memory.InMemoryUserRepository;
+import moonbean.repository.mongo.MongoUserRepository;
 import moonbean.service.UserService;
 
 public class UserServiceImpl implements UserService {
-    private final InMemoryUserRepository repo;
-    public UserServiceImpl(InMemoryUserRepository repo) { this.repo = repo; }
+    private final MongoUserRepository repo;
 
-    @Override
-    public boolean register(User user) {
-        if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) return false;
-        if (repo.findByEmail(user.getEmail()) != null) return false;
-        repo.save(user);
-        return true;
+    public UserServiceImpl(MongoUserRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public User login(String email, String password) {
-        User u = repo.findByEmail(email);
-        if (u != null && u.getPassword().equals(password)) return u;
-        return null;
+    public boolean register(String first, String last, String email, String pass) {
+        User u = new User(first, last, email, pass);
+        return repo.save(u);
+    }
+
+    @Override
+    public User login(String email, String pass) {
+        return repo.findByEmailAndPassword(email, pass);
     }
 }
