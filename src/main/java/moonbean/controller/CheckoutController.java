@@ -1,86 +1,47 @@
 package moonbean.controller;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import moonbean.app.AppContext;
 import moonbean.app.Navigator;
-import moonbean.model.CartItem;
+import moonbean.model.Order;
 
-/**
- * Handles checkout flow — shows order summary, confirms purchase,
- * and clears the cart after checkout.
- */
 public class CheckoutController {
 
-    @FXML private TableView<CartItem> table;
-    @FXML private TableColumn<CartItem, String> nameCol;
-    @FXML private TableColumn<CartItem, Number> qtyCol;
-    @FXML private TableColumn<CartItem, Number> priceCol;
-    @FXML private TableColumn<CartItem, Number> subtotalCol;
-    @FXML private Label totalLabel;
+    @FXML
+    private VBox container;
 
     @FXML
-    private void initialize() {
-        // setup columns
-        nameCol.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleStringProperty(c.getValue().getProduct().getName()));
-        qtyCol.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleIntegerProperty(c.getValue().getQuantity()));
-        priceCol.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleDoubleProperty(c.getValue().getProduct().getPrice()));
-        subtotalCol.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleDoubleProperty(c.getValue().getSubtotal()));
-
-        // populate table + total
-        table.setItems(FXCollections.observableArrayList(AppContext.cartService.getItems()));
-        totalLabel.setText(String.format("Total: ₱%.2f", AppContext.cartService.getTotal()));
-    }
+    private Button confirmButton;
 
     @FXML
-    private void onCheckout() {
-        if (AppContext.cartService.getItems().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Your cart is empty. Add items before checking out!");
-            return;
-        }
+    private Button cancelButton;
 
-        double total = AppContext.cartService.getTotal();
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirm Purchase");
-        confirm.setHeaderText("Confirm your purchase");
-        confirm.setContentText(String.format("Proceed with payment of ₱%.2f?", total));
+    @FXML
+    private void onConfirmCheckout() {
+        try {
+            Order order = AppContext.orderService.placeOrder();
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setTitle("Checkout Successful");
+            a.setHeaderText("Order placed successfully!");
+            a.setContentText("Order ID: " + order.getOrderId() +
+                    "\nTotal: ₱" + order.getTotalAmount());
+            a.showAndWait();
 
-        var result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            // Deduct product stock based on cart quantities
-            for (var item : AppContext.cartService.getItems()) {
-                var p = item.getProduct();
-                int newStock = p.getStock() - item.getQuantity();
-                if (newStock < 0) newStock = 0; // just in case
-                p.setStock(newStock);
-            }
-
-            // Clear cart after purchase
-            AppContext.cartService.clear();
-
-            showAlert(Alert.AlertType.INFORMATION,
-                    "Purchase successful! Thank you for ordering at MoonBean Café!");
-
-            // Return to menu
             Navigator.go("menu");
+        } catch (Exception e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Checkout Failed");
+            a.setHeaderText("Unable to place order");
+            a.setContentText(e.getMessage());
+            a.showAndWait();
         }
     }
 
     @FXML
     private void onCancel() {
         Navigator.go("cart");
-    }
-
-    private void showAlert(Alert.AlertType type, String msg) {
-        Alert a = new Alert(type);
-        a.setTitle("Message");
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.showAndWait();
     }
 }

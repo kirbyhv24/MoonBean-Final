@@ -3,24 +3,18 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="moonbean.controller.CheckoutController">
 
     <center>
-        <VBox spacing="10" alignment="CENTER">
-            <Label text="Order Summary" style="-fx-font-size:20; -fx-font-weight:bold;"/>
-            <TableView fx:id="table" prefWidth="550" prefHeight="300">
-                <columns>
-                    <TableColumn fx:id="nameCol" text="Product" prefWidth="180"/>
-                    <TableColumn fx:id="qtyCol" text="Qty" prefWidth="80"/>
-                    <TableColumn fx:id="priceCol" text="Price" prefWidth="120"/>
-                    <TableColumn fx:id="subtotalCol" text="Subtotal" prefWidth="140"/>
-                </columns>
-            </TableView>
-            <Label fx:id="totalLabel" text="Total: ₱0.00" style="-fx-font-size:16; -fx-font-weight:bold;"/>
+        <VBox spacing="15" alignment="CENTER">
+            <Label text="Confirm Checkout"
+                   style="-fx-font-size: 22px; -fx-font-weight: bold;" />
+            <Label text="Are you sure you want to place your order?"
+                   style="-fx-font-size: 14px;" />
             <HBox spacing="10" alignment="CENTER">
-                <Button text="Confirm Purchase" onAction="#onCheckout"/>
-                <Button text="Cancel" onAction="#onCancel"/>
+                <Button text="Confirm" onAction="#onConfirmCheckout" />
+                <Button text="Cancel" onAction="#onCancel" />
             </HBox>
         </VBox>
     </center>

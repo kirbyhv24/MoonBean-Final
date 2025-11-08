@@ -8,8 +8,9 @@ import moonbean.app.Navigator;
 import moonbean.model.CartItem;
 
 public class CartController {
-    @FXML private TableView<CartItem> table;
-    @FXML private TableColumn<CartItem, String> nameCol;
+
+    @FXML private TableView<CartItem> cartTable;
+    @FXML private TableColumn<CartItem, String> productCol;
     @FXML private TableColumn<CartItem, Number> qtyCol;
     @FXML private TableColumn<CartItem, Number> priceCol;
     @FXML private TableColumn<CartItem, Number> subtotalCol;
@@ -22,7 +23,7 @@ public class CartController {
 
     private void refresh() {
         // setup columns
-        nameCol.setCellValueFactory(c ->
+        productCol.setCellValueFactory(c ->
                 new javafx.beans.property.SimpleStringProperty(c.getValue().getProduct().getName()));
         qtyCol.setCellValueFactory(c ->
                 new javafx.beans.property.SimpleIntegerProperty(c.getValue().getQuantity()));
@@ -32,12 +33,12 @@ public class CartController {
                 new javafx.beans.property.SimpleDoubleProperty(c.getValue().getSubtotal()));
 
         // update table + total
-        table.setItems(FXCollections.observableArrayList(AppContext.cartService.getItems()));
+        cartTable.setItems(FXCollections.observableArrayList(AppContext.cartService.getItems()));
         totalLabel.setText(String.format("Total: ₱%.2f", AppContext.cartService.getTotal()));
     }
 
     @FXML
-    private void onClear() {
+    private void onClearCart() {
         if (AppContext.cartService.getItems().isEmpty()) {
             showAlert(Alert.AlertType.INFORMATION, "Your cart is already empty.");
             return;
