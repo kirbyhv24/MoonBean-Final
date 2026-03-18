@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="moonbean.controller.CheckoutController">
+
+    <center>
+        <VBox spacing="15" alignment="CENTER">
+            <Label text="Confirm Checkout"
+                   style="-fx-font-size: 22px; -fx-font-weight: bold;" />
+            <Label text="Are you sure you want to place your order?"
+                   style="-fx-font-size: 14px;" />
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Confirm" onAction="#onConfirmCheckout" />
+                <Button text="Cancel" onAction="#onCancel" />
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

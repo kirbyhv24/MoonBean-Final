@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="moonbean.controller.ProductsController">
+
+    <center>
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Available Products"
+                   style="-fx-font-size:20; -fx-font-weight:bold;"/>
+
+            <TableView fx:id="table" prefWidth="600" prefHeight="320">
+                <columns>
+                    <TableColumn fx:id="nameCol" text="Name" prefWidth="200"/>
+                    <TableColumn fx:id="categoryCol" text="Category" prefWidth="150"/>
+                    <TableColumn fx:id="priceCol" text="Price (₱)" prefWidth="120"/>
+                    <TableColumn fx:id="stockCol" text="Stock" prefWidth="100"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Add to Cart" onAction="#onAddToCart"/>
+                <Button text="Sort by Price ↑" onAction="#onSortPriceAsc"/>
+                <Button text="Back" onAction="#onBack"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
